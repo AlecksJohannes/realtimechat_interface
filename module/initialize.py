@@ -1,13 +1,11 @@
-import sys
-import os
-import user
-sys.path.append(os.path.abspath("../models"))
-sys.path.append(os.path.abspath("../network"))
-
+from module import platform_env
+import platform
 def encap_model(result):
-    list = []
+    user_array = []
     for attr in result:
-        user.first_name = attr['first_name']
-        user.id = attr['id']
-        list.append(user)
-    return list
+        user_array.append(attr['email'])
+    return user_array
+
+def set_platform_env_var(response):
+    if response['code'] == 302:
+        platform_env.env_variable(platform.system(), response['token'])
