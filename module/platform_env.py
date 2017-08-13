@@ -1,14 +1,18 @@
 import os
-def env_variable(os_name, token):
+def env_variable(os_name, token, id):
     options = {
-        'Darwin': darwin(token),
-        'Linux': linux(token),
-        'Windows': windows(token),
+        'Darwin': darwin(token, id),
+        'Linux': linux(token, id),
+        'Windows': windows(token, id),
     }
     options[os_name]
-def darwin(token):
+def darwin(token, id):
     os.environ['token'] = token
-def linux(token):
+    print(id)
+    os.environ['user_id'] = str(id)
+def linux(token, id):
     os.environ['token'] = token
-def windows(token):
+    os.environ['user_id'] = str(id)
+def windows(token, id):
     os.environ['token'] = token
+    os.environ['user_id'] = str(id)

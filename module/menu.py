@@ -14,7 +14,8 @@ class MenuBase(object):
 
 
 class SubMenu(MenuBase):
-    def __init__(self, menu_params = None, response = None):
+    data = 0
+    def create(self, menu_params = None, response = None):
         from network import request
         if response != None:
             if response['code'] == 302:
@@ -25,13 +26,13 @@ class SubMenu(MenuBase):
         else:
             self.OptionForMenu()
 
+
+
     def OptionForMenu(self):
-        from network import request
-        option = super(SubMenu, self).base('Menu', 'Hi and welcome!.', ['Login', 'Register'])
-        options = {
-            'login': request.login(),
-            'register': request.register(),
-            'quit': sys.exit()
-        }
-        options[option]
+        from network import request 
+        option = super(SubMenu, self).base('Menu', 'Hi and welcome!.', ['Login', 'Register', 'quit'])
+        if option == 'Register':
+            request.register()
+        else:
+            request.login()
 
