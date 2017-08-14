@@ -4,9 +4,14 @@ import threading
 import os
 import json
 def init_protocal(conversation):
-    print(conversation)
     def on_message(ws, message):
-        print message
+        message = json.loads(message)
+        id = int(os.environ['user_id'])
+        sender_id = int(message['sender_id'])
+        if id != sender_id:
+            print("%+*s %s" %(50,message['text'], ": Your friend said"))
+        else:
+            print("You said:" + message['text'])
 
     def on_error(ws, error):
         print error
@@ -14,13 +19,17 @@ def init_protocal(conversation):
     def on_close(ws):
         print "### closed ###"
 
-
     if 'messages' not in conversation:
         print 'No data'
     else:
+        id = int(os.environ['user_id'])
         for message in conversation['messages']:
-            sys.stdout.write("\r{0}>".format("Test says: "*message))
-            sys.stdout.flush()
+            if message['user_id'] != id:
+                print("%+*s %s" %(50,message['body'], ": Your friend said"))
+            else:
+                print("You said:" + message['body'])
+
+
 
     ws = websocket.WebSocketApp("ws://localhost:8000/conversation/" + str(conversation['conversation_id']),
                                 on_message = on_message,
