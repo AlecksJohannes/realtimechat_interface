@@ -9,7 +9,7 @@ import os
 import json
 
 def get_users_list():
-    base_url = "http://localhost:8000"
+    base_url = "http://localhost:8000?id=" + str(os.environ['user_id'])
     result = request.urlopen(base_url).read()
     return initialize.encap_model(json.loads(result))
 
